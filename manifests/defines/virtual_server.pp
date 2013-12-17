@@ -19,6 +19,7 @@ define keepalived::virtual_server (
 	$virtual_server_port,
 	$lb_kind = 'DR',
 	$lb_algo = 'wlc',
+	$lb_passwd = 'changeme',
 	$interface = 'eth0',
 	$priority = '' ) {
 
@@ -32,7 +33,7 @@ define keepalived::virtual_server (
 	}
 
 	#Generate a fixed-random password for this virtual server
-	$auth_pass = genpasswd("KA-VS-$name")
+	$auth_pass = $lb_passwd
 
 	#Collect all exported real servers for this virtual server
 	File <<| tag == "keepalived-exported_real_server-$name" |>>
