@@ -45,7 +45,7 @@ define keepalived::virtual_server (
         }
 
         file {"/etc/keepalived/vrrp_backup.sh":
-            content => template("keepalived/vrrp_backup.sh.erb"),
+            content => template("keepalived/etc/keepalived/vrrp_backup.sh.erb"),
             mode => 0644,
             owner => root,
             group => 0,
@@ -53,7 +53,7 @@ define keepalived::virtual_server (
         }
 
         file {"/etc/keepalived/vrrp_master.sh":
-            content => template("keepalived/vrrp_master.sh.erb"),
+            content => template("keepalived/etc/keepalived/vrrp_master.sh.erb"),
             mode => 0644,
             owner => root,
             group => 0,
