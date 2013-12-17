@@ -22,7 +22,7 @@ class keepalived {
 	file{"/etc/keepalived/conf.d/real_${name}.conf":
 		ensure => present,
 		content => template("keepalived/real_server.erb"),
-		require => File["/etc/keepalived/conf.d"]
 		notify => Exec["reload-keepalived"],
+		require => File["/etc/keepalived/conf.d"]
 	}
 }
