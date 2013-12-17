@@ -9,7 +9,7 @@ class keepalived {
     }
 
 	package { keepalived: ensure => installed }
-	package { ["ipvsadm", "garp"]: }
+	package { ["ipvsadm"]: }
 
 	service { keepalived:
 		ensure => running,
@@ -53,11 +53,11 @@ class keepalived {
 		notify => Exec["reload-keepalived"],
     }
 
-	file { "/etc/keepalived/vrrp_status.sh":  
+	file { "/etc/keepalived/vrrp_state.sh":
 		ensure => "file",
 		owner  => "root",
 		mode   => "0644",
-		source => "puppet:///modules/keepalived/etc/keepalived/vrrp_status.sh",
+		source => "puppet:///modules/keepalived/etc/keepalived/vrrp_state.sh",
 	}
 
 }
