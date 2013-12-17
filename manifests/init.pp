@@ -1,8 +1,8 @@
-# Class: keepalived::server
+# Class: keepalived
 #
 # This class manage keepalived server installation and configuration. 
 #
-class keepalived::server {
+class keepalived {
 
 	package { keepalived: ensure => installed }
 
