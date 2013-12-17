@@ -9,6 +9,7 @@ class keepalived {
     }
 
 	package { keepalived: ensure => installed }
+	package { ["ipvsadm", "garp"]: }
 
 	service { keepalived:
 		ensure => running,
