@@ -37,7 +37,7 @@ define keepalived::real_server (
 		}
 	}
 
-	file{"/etc/keepalived/conf.d/${virtual_server_name}.conf":
+	file{"/etc/keepalived/conf.d/real_${name}.conf":
 		ensure => present,
 		content => template("keepalived/real_server.erb"),
 		notify => Exec["reload-keepalived"],

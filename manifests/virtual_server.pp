@@ -36,10 +36,10 @@ define keepalived::virtual_server (
 	$auth_pass = $lb_passwd
 
 	#Collect all exported real servers for this virtual server
-	File <<| tag == "keepalived-exported_real_server-$name" |>>
+	#File <<| tag == "keepalived-exported_real_server-$name" |>>
 
 	#Construct /etc/keepalived/keepalived.conf
-        file {"/etc/keepalived/conf.d/$name":
+        file {"/etc/keepalived/conf.d/virtual_${name}.conf":
             content => template("keepalived/virtual_server.erb"),
             mode => 0644,
             owner => root,
