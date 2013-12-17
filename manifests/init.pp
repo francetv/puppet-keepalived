@@ -17,6 +17,12 @@ class keepalived {
         refreshonly => true,
     }
 
+	file{"/etc/keepalived/keepalived.conf":
+		ensure => present,
+		content => template("keepalived/keepalived.conf.erb"),
+		notify => Service["keepalived"],
+	}
+
 	file{"/etc/keepalived/conf.d": ensure => directory}
 
 	file{"/etc/keepalived/conf.d/real_${name}.conf":
