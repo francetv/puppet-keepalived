@@ -44,14 +44,6 @@ define keepalived::virtual_server (
 			notify => Exec["reload-keepalived"],
         }
 
-        file {"/etc/keepalived/conf.d/virtual_${name}.conf":
-            content => template("keepalived/virtual_server.erb"),
-            mode => 0644,
-            owner => root,
-            group => 0,
-			notify => Exec["reload-keepalived"],
-        }
-
         file {"/etc/keepalived/vrrp_backup.sh":
             content => template("keepalived/vrrp_backup.sh.erb"),
             mode => 0644,
