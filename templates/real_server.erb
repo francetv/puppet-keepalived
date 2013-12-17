@@ -1,7 +1,7 @@
 
         real_server <%= @ip %> <%= @port %> {
             weight <%= @weight %><%
-	    case check_type
+	    case @check_type
 		when "MISC_CHECK" %>
                 MISC_CHECK {
                     misc_path "<%= @check_misc_path %>"
