@@ -1,7 +1,7 @@
 ! Configuration File for keepalived
 
 global_defs {
-  <%- if enable_notification_email == "true" -%>
+  <%- if @enable_notification_email == "true" -%>
   notification_email {
     root@localhost
   }
