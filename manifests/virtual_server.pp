@@ -35,9 +35,6 @@ define keepalived::virtual_server (
 	#Generate a fixed-random password for this virtual server
 	$auth_pass = $lb_passwd
 
-	#Collect all exported real servers for this virtual server
-	#File <<| tag == "keepalived-exported_real_server-$name" |>>
-
 	#Construct /etc/keepalived/keepalived.conf
         file {"/etc/keepalived/conf.d/virtual_${name}.conf":
             content => template("keepalived/virtual_server.erb"),
@@ -47,6 +44,36 @@ define keepalived::virtual_server (
 			notify => Exec["reload-keepalived"],
         }
 
+        file {"/etc/keepalived/conf.d/virtual_${name}.conf":
+            content => template("keepalived/virtual_server.erb"),
+            mode => 0644,
+            owner => root,
+            group => 0,
+			notify => Exec["reload-keepalived"],
+        }
+
+        file {"/etc/keepalived/vrrp_backup.sh":
+            content => template("keepalived/vrrp_backup.sh.erb"),
+            mode => 0644,
+            owner => root,
+            group => 0,
+			notify => Exec["reload-keepalived"],
+        }
+
+        file {"/etc/keepalived/vrrp_master.sh":
+            content => template("keepalived/vrrp_master.sh.erb"),
+            mode => 0644,
+            owner => root,
+            group => 0,
+			notify => Exec["reload-keepalived"],
+        }
+
+		file { "/etc/keepalived/vrrp_status.sh":  
+			ensure => "file",
+			owner  => "root",
+			mode   => "0644",
+			source => "puppet:///modules/keepalived/etc/keepalived/vrrp_status.sh",
+		}
 	# Configure DSR on real servers with exported ressources
 	# Be carefull when server reboots
 
