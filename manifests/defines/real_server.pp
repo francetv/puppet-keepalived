@@ -37,10 +37,9 @@ define keepalived::real_server (
 		}
 	}
 
-	file{"/var/lib/puppet/modules/keepalived/real_servers/${virtual_server_name}-$name":
+	file{"/etc/keepalived/conf.d/${virtual_server_name}.conf":
 		ensure => present,
 		content => template("keepalived/real_server.erb"),
-		before => Exec["concat_/etc/keepalived/keepalived.conf"],
 		notify => Exec["reload-keepalived"],
 	}
 

@@ -39,18 +39,12 @@ define keepalived::virtual_server (
 	File <<| tag == "keepalived-exported_real_server-$name" |>>
 
 	#Construct /etc/keepalived/keepalived.conf
-        file {
-                "/var/lib/puppet/modules/keepalived/real_servers/$name":
-                        content => template("keepalived/virtual_server.erb"),
-                        mode => 0644, owner => root, group => 0,
-			before => Exec["concat_/etc/keepalived/keepalived.conf"],
+        file {"/etc/keepalived/conf.d/$name":
+            content => template("keepalived/virtual_server.erb"),
+            mode => 0644,
+            owner => root,
+            group => 0,
 			notify => Exec["reload-keepalived"],
-        }
-
-        file {
-                "/var/lib/puppet/modules/keepalived/real_servers/${name}z":
-                        content => "}\n",
-			before => Exec["concat_/etc/keepalived/keepalived.conf"],
         }
 
 	# Configure DSR on real servers with exported ressources
@@ -72,17 +66,6 @@ define keepalived::virtual_server (
 			onlyif => "/usr/bin/test -z \"`/sbin/sysctl net.ipv4.conf.all.arp_ignore | grep 1`\"",
 			tag => "keepalived-exported-dsr-config-$name",
 		}
-
-		# In my case i use concat::fragment to construct /etc/network/interfaces
-		# This ensure loopback interface will be configure at boot time
-
-		#@@concat::fragment{"network_interfaces_eth0-DSR-$name":
-		#	target  => "/etc/network/interfaces",
-		#	ensure  => present,
-		#	content => "\t#DSR IP for $name\n\tup ip addr add ${virtual_ipaddress}/32 dev lo\n",
-		#	order   => 'eth0_20',
-		#	tag     => "keepalived-exported-dsr-config-$name",
-		#}
 	}
  
 }
