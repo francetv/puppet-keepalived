@@ -36,4 +36,28 @@ class keepalived {
 		notify => Exec["reload-keepalived"],
 		require => File["/etc/keepalived/conf.d"]
 	}
+
+    file {"/etc/keepalived/vrrp_backup.sh":
+        content => template("keepalived/etc/keepalived/vrrp_backup.sh.erb"),
+        mode => 0644,
+        owner => root,
+        group => 0,
+		notify => Exec["reload-keepalived"],
+    }
+
+    file {"/etc/keepalived/vrrp_master.sh":
+        content => template("keepalived/etc/keepalived/vrrp_master.sh.erb"),
+        mode => 0644,
+        owner => root,
+        group => 0,
+		notify => Exec["reload-keepalived"],
+    }
+
+	file { "/etc/keepalived/vrrp_status.sh":  
+		ensure => "file",
+		owner  => "root",
+		mode   => "0644",
+		source => "puppet:///modules/keepalived/etc/keepalived/vrrp_status.sh",
+	}
+
 }
