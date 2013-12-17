@@ -19,7 +19,7 @@ class keepalived {
 
 	file{"/etc/keepalived/keepalived.conf":
 		ensure => present,
-		content => template("keepalived/keepalived.conf.erb"),
+		content => template("keepalived/etc/keepalived/keepalived.conf.erb"),
 		notify => Service["keepalived"],
 	}
 
