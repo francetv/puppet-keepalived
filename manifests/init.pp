@@ -4,6 +4,10 @@
 #
 class keepalived {
 
+    if $enable_notification_email == "" {
+        $enable_notification_email = false
+    }
+
 	package { keepalived: ensure => installed }
 
 	service { keepalived:
