@@ -8,8 +8,9 @@ class keepalived {
         $enable_notification_email = false
     }
 
-	package { keepalived: ensure => installed }
-	package { ["ipvsadm"]: }
+	package { ['keepalived', 'ipvsadm']: 
+		ensure => installed
+	}
 
 	service { keepalived:
 		ensure => running,
