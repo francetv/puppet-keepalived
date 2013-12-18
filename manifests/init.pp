@@ -32,13 +32,6 @@ class keepalived {
 
 	file{"/etc/keepalived/conf.d": ensure => directory}
 
-	file{"/etc/keepalived/conf.d/real_${name}.conf":
-		ensure => present,
-		content => template("keepalived/real_server.erb"),
-		notify => Exec["reload-keepalived"],
-		require => File["/etc/keepalived/conf.d"]
-	}
-
     file {"/etc/keepalived/vrrp_backup.sh":
         content => template("keepalived/etc/keepalived/vrrp_backup.sh.erb"),
         mode => 0644,
