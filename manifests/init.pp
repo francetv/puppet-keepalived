@@ -54,11 +54,12 @@ class keepalived {
 		notify => Exec["reload-keepalived"],
     }
 
-	file { "/etc/keepalived/vrrp_state.sh":
-		ensure => "file",
-		owner  => "root",
-		mode   => "0644",
-		source => "puppet:///modules/keepalived/etc/keepalived/vrrp_state.sh",
-	}
+    file {"/etc/keepalived/vrrp_state.sh":
+        content => template("keepalived/etc/keepalived/vrrp_state.sh.erb"),
+        mode => 0644,
+        owner => root,
+        group => 0,
+		notify => Exec["reload-keepalived"],
+    }
 
 }
