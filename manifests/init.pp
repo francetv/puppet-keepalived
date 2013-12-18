@@ -21,6 +21,7 @@ class keepalived {
 	exec{"reload-keepalived":
 		command => "/etc/init.d/keepalived reload",
         refreshonly => true,
+        require => Package["keepalived"],
     }
 
 	file{"/etc/keepalived/keepalived.conf":
@@ -43,6 +44,7 @@ class keepalived {
         mode => 0644,
         owner => root,
         group => 0,
+        require => Package["keepalived"],
 		notify => Exec["reload-keepalived"],
     }
 
@@ -51,14 +53,16 @@ class keepalived {
         mode => 0644,
         owner => root,
         group => 0,
+        require => Package["keepalived"],
 		notify => Exec["reload-keepalived"],
     }
 
     file {"/etc/keepalived/vrrp_state.sh":
-        content => template("keepalived/etc/keepalived/vrrp_state.sh.erb"),
         mode => 0644,
         owner => root,
         group => 0,
+        source => "puppet:///modules/keepalived/etc/keepalived/vrrp_state.sh",
+        require => Package["keepalived"],
 		notify => Exec["reload-keepalived"],
     }
 
