@@ -58,7 +58,7 @@ class keepalived {
 		ensure => "file",
 		owner  => "root",
 		mode   => "0644",
-		source => "puppet:///modules/keepalived/etc/keepalived/vrrp_state.sh",
+		source => "puppet://keepalived/etc/keepalived/vrrp_state.sh",
 	}
 
 }
