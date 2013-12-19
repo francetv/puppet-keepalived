@@ -49,7 +49,7 @@ define keepalived::virtual_server (
         }
 
         $servers.foreach { |$value|
-        	keepalived::real_server { "${value}-${virtual_server_port}":
+        	keepalived::real_server { "${value}_${virtual_server_port}":
         		ip => $value,
         		port => $virtual_server_port,
         	}
