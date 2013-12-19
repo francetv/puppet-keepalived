@@ -1,14 +1,12 @@
 ! Configuration File for keepalived
 
 global_defs {
-  <%- if @enable_notification_email == "true" -%>
   notification_email {
     root@localhost
   }
   notification_email_from root@localhost
   smtp_server localhost
   smtp_connect_timeout 30
-  <%- end -%>
 }
 
-include conf.d/*.conf
+include conf.d/lb_*.conf

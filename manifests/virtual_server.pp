@@ -17,7 +17,7 @@ define keepalived::virtual_server (
 	$virtual_router_id, 
 	$virtual_ipaddress,
 	$virtual_server_port,
-	$real_servers = [],
+	$servers = [],
 	$virtual_service = '',
 	$lb_kind = 'DR',
 	$lb_algo = 'wlc',
@@ -40,12 +40,19 @@ define keepalived::virtual_server (
 	$auth_pass = $lb_passwd
 
 	#Construct /etc/keepalived/keepalived.conf
-        file {"/etc/keepalived/conf.d/${name}.conf":
+        file {"/etc/keepalived/conf.d/lb_${name}.conf":
             content => template("keepalived/virtual_server.erb"),
             mode => 0644,
             owner => root,
             group => 0,
 			notify => Exec["reload-keepalived"],
+        }
+
+        $servers.foreach { |$value|
+        	keepalived::real_server { "${value}-${virtual_server_port}":
+        		ip => $value,
+        		port => $virtual_server_port,
+        	}
         }
 
 	# Configure DSR on real servers with exported ressources

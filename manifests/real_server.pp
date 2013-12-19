@@ -18,7 +18,6 @@
 define keepalived::real_server (
 	$ip,
 	$port,
-	$virtual_server_name,
 	$weight = '100',
 	$check_type = 'TCP_CHECK', 
 		$check_connect_timeout = '2',
@@ -37,7 +36,7 @@ define keepalived::real_server (
 		}
 	}
 
-	file{"/etc/keepalived/conf.d/real_${name}.conf":
+	file{"/etc/keepalived/conf.d/rs_${ip}_${port}.conf":
 		ensure => present,
 		content => template("keepalived/real_server.erb"),
 		notify => Exec["reload-keepalived"],
