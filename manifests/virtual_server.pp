@@ -17,7 +17,7 @@ define keepalived::virtual_server (
 	$virtual_router_id, 
 	$virtual_ipaddress,
 	$virtual_server_port,
-	$real_servers = '',
+	$real_servers = [],
 	$virtual_service = '',
 	$lb_kind = 'DR',
 	$lb_algo = 'wlc',

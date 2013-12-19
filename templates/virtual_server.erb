@@ -20,8 +20,8 @@ virtual_server <%= @virtual_ipaddress %> <%= @virtual_server_port %> {
     <%
     when "TCP_CHECK" %>
       TCP_CHECK {
-        connect_port <%= @real_check_connect_port %>
-        connect_timeout <%= @check_connect_timeout %>
+        connect_port <%= @virtual_server_port %>
+        connect_timeout 5
       }
     <%
     when "HTTP_GET" %>
