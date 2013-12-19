@@ -5,10 +5,12 @@ virtual_server <%= @virtual_ipaddress %> <%= @virtual_server_port %> {
     nat_mask 255.255.255.0
     protocol TCP
 
+<% real_servers.each do |ip , port, weight| %>
+
     real_server <%= @ip %> <%= @port %> {
-      weight <%= @weight %><%
-    case @check_type
-    when "MISC_CHECK" %>
+      weight <%= @weight %>
+<%    case @check_type
+      when "MISC_CHECK" %>
       MISC_CHECK {
           misc_path "<%= @check_misc_path %>"
           connect_timeout <%= @check_connect_timeout %>
@@ -34,4 +36,6 @@ virtual_server <%= @virtual_ipaddress %> <%= @virtual_server_port %> {
         delay_before_retry <%= @check_delay_before_retry %>
       }
     <% end %>
+    }
+<% end %>
 }

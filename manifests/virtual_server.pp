@@ -17,6 +17,7 @@ define keepalived::virtual_server (
 	$virtual_router_id, 
 	$virtual_ipaddress,
 	$virtual_server_port,
+	$real_servers = '',
 	$lb_kind = 'DR',
 	$lb_algo = 'wlc',
 	$lb_passwd = 'changeme',
@@ -36,7 +37,7 @@ define keepalived::virtual_server (
 	$auth_pass = $lb_passwd
 
 	#Construct /etc/keepalived/keepalived.conf
-        file {"/etc/keepalived/conf.d/virtual_${name}.conf":
+        file {"/etc/keepalived/conf.d/${name}.conf":
             content => template("keepalived/virtual_server.erb"),
             mode => 0644,
             owner => root,
