@@ -55,15 +55,15 @@ define keepalived::virtual_server (
 				onlyif => "/usr/bin/test -z \"`/sbin/ip addr ls lo | grep ${value}/32`\"",
 				tag => "keepalived-exported-dsr-config-$name",
 			}
-			exec{"add-arp_announce-config-DSR-$name":
+			exec{"add-arp_announce-config-DSR-${value}-${name}":
 				command => "/sbin/sysctl net.ipv4.conf.all.arp_announce=2",
 				onlyif => "/usr/bin/test -z \"`/sbin/sysctl net.ipv4.conf.all.arp_announce | grep 2`\"",
-				tag => "keepalived-exported-dsr-config-$name",
+				tag => "keepalived-exported-dsr-config-${value}-$name",
 			}
-			exec{"add-arp_ignore-config-DSR-$name":
+			exec{"add-arp_ignore-config-DSR-${value}-${name}":
 				command => "/sbin/sysctl net.ipv4.conf.all.arp_ignore=1",
 				onlyif => "/usr/bin/test -z \"`/sbin/sysctl net.ipv4.conf.all.arp_ignore | grep 1`\"",
-				tag => "keepalived-exported-dsr-config-$name",
+				tag => "keepalived-exported-dsr-config-${value}-$name",
 			}
 		}
 	}
