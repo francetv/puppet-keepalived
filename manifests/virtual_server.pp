@@ -34,6 +34,8 @@ define keepalived::virtual_server (
 		default => $priority,
 	}
 
+	$check_type = 'TCP_CHECK'
+
 	#Generate a fixed-random password for this virtual server
 	$auth_pass = $lb_passwd
 

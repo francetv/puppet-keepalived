@@ -5,9 +5,9 @@ virtual_server <%= @virtual_ipaddress %> <%= @virtual_server_port %> {
     nat_mask 255.255.255.0
     protocol TCP
 
-<% @real_servers.each do |ip , port, weight| %>
+<% @real_servers.each do |ip| %>
 
-    real_server <%= @ip %> <%= @port %> {
+    real_server <%= @ip %> <%= @virtual_server_port %> {
       weight <%= @weight %>
 <%    case @check_type
       when "MISC_CHECK" %>
