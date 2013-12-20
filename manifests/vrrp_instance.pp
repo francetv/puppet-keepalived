@@ -1,6 +1,5 @@
 define keepalived::vrrp_instance ( 
 	$vip = [],
-	$virtual_router_id,
 	$lb_passwd = 'changeme',
 	$interface = 'eth0') {
 

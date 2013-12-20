@@ -11,11 +11,11 @@ vrrp_sync_group <%= @name %>_group {
   notify /etc/keepalived/vrrp_state.sh
 }
 
-<% @vip_address.each do |ip,state| %>
+<% @vip_address.each do |ip,state,router_id| %>
 vrrp_instance <%= @name %>_<%= @ip %> {
         state <%= @state %>
         interface <%= @interface %>
-        virtual_router_id <%= @virtual_router_id %>
+        virtual_router_id <%= @router_id %>
         priority <%= @real_priority %>
         advert_int 1
         smtp_alert
