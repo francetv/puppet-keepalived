@@ -40,13 +40,22 @@ define keepalived::virtual_server (
 	$auth_pass = $lb_passwd
 
 	#Construct /etc/keepalived/keepalived.conf
-        file {"/etc/keepalived/conf.d/lb_${name}.conf":
-            content => template("keepalived/virtual_server.erb"),
-            mode => 0644,
-            owner => root,
-            group => 0,
-			notify => Exec["reload-keepalived"],
-        }
+    file {"/etc/keepalived/conf.d/lb_${name}.conf":
+        content => template("keepalived/virtual_server.erb"),
+        mode => 0644,
+        owner => root,
+        group => 0,
+		notify => Exec["reload-keepalived"],
+    }
+
+	#Construct /etc/keepalived/keepalived.conf
+    file {"/etc/keepalived/conf.d/vrrp_${name}.conf":
+        content => template("keepalived/vrrp_instance.erb"),
+        mode => 0644,
+        owner => root,
+        group => 0,
+		notify => Exec["reload-keepalived"],
+    }
 
 	# Configure DSR on real servers with exported ressources
 	# Be carefull when server reboots
