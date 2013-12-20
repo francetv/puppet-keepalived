@@ -16,7 +16,7 @@ vrrp_instance <%= @name %>_<%= ip['vip'] %> {
         state <%= ip['state'] %>
         interface <%= @interface %>
         virtual_router_id <%= ip['router_id'] %>
-        priority <%= @real_priority %>
+        priority <%= ip['priority'] %>
         advert_int 1
         smtp_alert
         authentication {
