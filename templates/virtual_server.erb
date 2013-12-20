@@ -6,6 +6,6 @@ virtual_server <%= @virtual_ipaddress %> <%= @virtual_server_port %> {
     protocol TCP
 
 <% @servers.each do |ip| %>
-    include conf.d/rs_<%= ip %>_<%= @virtual_server_port %>.conf
+    include rs_<%= ip %>_<%= @virtual_server_port %>.conf
 <% end %>
 }
