@@ -48,26 +48,19 @@ define keepalived::virtual_server (
 			notify => Exec["reload-keepalived"],
         }
 
-        $servers.foreach { |$value|
-        	keepalived::real_server { "${value}_${virtual_server_port}":
-        		ip => $value,
-        		port => $virtual_server_port,
-        	}
-        }
-
 	# Configure DSR on real servers with exported ressources
 	# Be carefull when server reboots
 
 	if $state == "MASTER" { #Export only when MASTER
-		exec{"add-loopback-DSR-${virtual_ipaddress}":
+		exec{"add-loopback-DSR-${virtual_ipaddress}-${virtual_server_port}":
 			command => "/sbin/ip addr add ${virtual_ipaddress}/32 dev lo",
 			onlyif => "/usr/bin/test -z \"`/sbin/ip addr ls lo | grep ${virtual_ipaddress}/32`\"",
 		}
-		exec{"add-arp_announce-config-DSR-${virtual_ipaddress}":
+		exec{"add-arp_announce-config-DSR-${virtual_ipaddress}-${virtual_server_port}":
 			command => "/sbin/sysctl net.ipv4.conf.all.arp_announce=2",
 			onlyif => "/usr/bin/test -z \"`/sbin/sysctl net.ipv4.conf.all.arp_announce | grep 2`\"",
 		}
-		exec{"add-arp_ignore-config-DSR-${virtual_ipaddress}":
+		exec{"add-arp_ignore-config-DSR-${virtual_ipaddress}-${virtual_server_port}":
 			command => "/sbin/sysctl net.ipv4.conf.all.arp_ignore=1",
 			onlyif => "/usr/bin/test -z \"`/sbin/sysctl net.ipv4.conf.all.arp_ignore | grep 1`\"",
 		}

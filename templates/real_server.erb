@@ -1,4 +1,4 @@
-    real_server <%= ip %> <%= @virtual_server_port %> {
+    real_server <%= @ip %> <%= @port %> {
       weight <%= @weight %>
 <%    case @check_type
       when "MISC_CHECK" %>
@@ -10,7 +10,7 @@
       }
     <% when "TCP_CHECK" %>
       TCP_CHECK {
-        connect_port <%= @virtual_server_port %>
+        connect_port <%= @port %>
         connect_timeout 5
       }
     <%
