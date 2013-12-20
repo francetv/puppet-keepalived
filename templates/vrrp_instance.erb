@@ -1,7 +1,7 @@
 vrrp_sync_group <%= @name %>_group {
   group {
 <% @vip.each do |ip| %>
-    <%= @name %>_<%= @ip['ip'] %>
+    <%= @name %>_<%= ip['vip'] %>
 <% end %>
   }
 
@@ -12,10 +12,10 @@ vrrp_sync_group <%= @name %>_group {
 }
 
 <% @vip.each do |ip| %>
-vrrp_instance <%= @name %>_<%= @ip['ip'] %> {
-        state <%= @ip['state'] %>
+vrrp_instance <%= @name %>_<%= ip['vip'] %> {
+        state <%= ip['state'] %>
         interface <%= @interface %>
-        virtual_router_id <%= @ip['router_id'] %>
+        virtual_router_id <%= ip['router_id'] %>
         priority <%= @real_priority %>
         advert_int 1
         smtp_alert
@@ -25,7 +25,7 @@ vrrp_instance <%= @name %>_<%= @ip['ip'] %> {
         }
 
         virtual_ipaddress {
-               <%= @ip['ip'] %>
+               <%= ip['vip'] %>
         }
 }
 <% end %>
