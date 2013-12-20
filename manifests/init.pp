@@ -58,5 +58,4 @@ class keepalived {
         require => Package["keepalived"],
         notify => Exec["reload-keepalived"],
     }
-
 }

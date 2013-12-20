@@ -1,6 +1,8 @@
 vrrp_sync_group <%= @name %>_group {
   group {
-    <%= @name %>
+<% @vip_address.each do |ip| %>
+    <%= @name %>_<%= @ip %>
+<% end %>
   }
 
   notify_master /etc/keepalived/vrrp_master.sh
@@ -9,7 +11,8 @@ vrrp_sync_group <%= @name %>_group {
   notify /etc/keepalived/vrrp_state.sh
 }
 
-vrrp_instance <%= @name %> {
+<% @vip_address.each do |ip,state| %>
+vrrp_instance <%= @name %>_<%= @ip %> {
         state <%= @state %>
         interface <%= @interface %>
         virtual_router_id <%= @virtual_router_id %>
@@ -22,6 +25,7 @@ vrrp_instance <%= @name %> {
         }
 
         virtual_ipaddress {
-               <%= @virtual_ipaddress %>
+               <%= @ip %>
         }
 }
+<% end %>
