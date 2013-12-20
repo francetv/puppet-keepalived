@@ -1,7 +1,7 @@
 vrrp_sync_group <%= @name %>_group {
   group {
-<% @vip_address.each do |ip| %>
-    <%= @name %>_<%= @ip %>
+<% @vip.each do |ip| %>
+    <%= @name %>_<%= @ip['ip'] %>
 <% end %>
   }
 
@@ -11,11 +11,11 @@ vrrp_sync_group <%= @name %>_group {
   notify /etc/keepalived/vrrp_state.sh
 }
 
-<% @vip_address.each do |ip,state,router_id| %>
-vrrp_instance <%= @name %>_<%= @ip %> {
-        state <%= @state %>
+<% @vip.each do |ip| %>
+vrrp_instance <%= @name %>_<%= @ip['ip'] %> {
+        state <%= @ip['state'] %>
         interface <%= @interface %>
-        virtual_router_id <%= @router_id %>
+        virtual_router_id <%= @ip['router_id'] %>
         priority <%= @real_priority %>
         advert_int 1
         smtp_alert
@@ -25,7 +25,7 @@ vrrp_instance <%= @name %>_<%= @ip %> {
         }
 
         virtual_ipaddress {
-               <%= @ip %>
+               <%= @ip['ip'] %>
         }
 }
 <% end %>
