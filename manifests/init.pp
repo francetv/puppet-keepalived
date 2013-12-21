@@ -32,24 +32,6 @@ class keepalived {
 
     file{"/etc/keepalived/conf.d": ensure => directory}
 
-    file {"/etc/keepalived/vrrp_backup.sh":
-        content => template("keepalived/etc/keepalived/vrrp_backup.sh.erb"),
-        mode => 0644,
-        owner => root,
-        group => 0,
-        require => Package["keepalived"],
-        notify => Exec["reload-keepalived"],
-    }
-
-    file {"/etc/keepalived/vrrp_master.sh":
-        content => template("keepalived/etc/keepalived/vrrp_master.sh.erb"),
-        mode => 0644,
-        owner => root,
-        group => 0,
-        require => Package["keepalived"],
-        notify => Exec["reload-keepalived"],
-    }
-
     file {"/etc/keepalived/vrrp_state.sh":
         mode => 0644,
         owner => root,
