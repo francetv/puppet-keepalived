@@ -1,16 +1,3 @@
-vrrp_sync_group <%= @name %>_group {
-  group {
-<% @vip.each do |ip| %>
-    <%= @name %>_<%= ip['vip'] %>
-<% end %>
-  }
-
-  notify_master /etc/keepalived/vrrp_master.sh
-  notify_backup /etc/keepalived/vrrp_backup.sh
-  notify_fault /etc/keepalived/vrrp_backup.sh
-  notify /etc/keepalived/vrrp_state.sh
-}
-
 <% @vip.each do |ip| %>
 vrrp_instance <%= @name %>_<%= ip['vip'] %> {
         state <%= ip['state'] %>
@@ -23,6 +10,11 @@ vrrp_instance <%= @name %>_<%= ip['vip'] %> {
                 auth_type PASS
                 auth_pass <%= @auth_pass %>
         }
+
+        notify_master /etc/keepalived/vrrp_master.sh
+        notify_backup /etc/keepalived/vrrp_backup.sh
+        notify_fault /etc/keepalived/vrrp_backup.sh
+        notify /etc/keepalived/vrrp_state.sh
 
         virtual_ipaddress {
                <%= ip['vip'] %>
