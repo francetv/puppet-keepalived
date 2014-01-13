@@ -2,10 +2,14 @@
 #
 # This class manage keepalived server installation and configuration. 
 #
-class keepalived {
+class keepalived (
+    $email_notifications = 'root@localhost',
+    $smtp_server = '127.0.0.1',
+    ) {
 
-    if $enable_notification_email == "" {
-        $enable_notification_email = false
+    exec{"add-ip_forwarding":
+        command => "/sbin/sysctl net.ipv4.ip_forward=1",
+        onlyif => "/usr/bin/test -z \"`/sbin/sysctl net.ipv4.ip_forward | grep 1`\"",
     }
 
     package { ['keepalived', 'ipvsadm']: 
