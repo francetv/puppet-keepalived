@@ -7,6 +7,8 @@ global_defs {
   notification_email_from root@<%= @hostname %>
   smtp_server <%= @smtp_server %>
   smtp_connect_timeout 30
+
+  router_id <%= @hostname %>
 }
 
 include conf.d/vrrp_*.conf

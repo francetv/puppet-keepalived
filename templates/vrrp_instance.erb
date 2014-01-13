@@ -2,6 +2,7 @@
 vrrp_instance <%= @name %>_<%= ip['vip'] %> {
         state <%= ip['state'] %>
         interface <%= @interface %>
+        lvs_sync_daemon_interface <%= @interface %>
         virtual_router_id <%= ip['router_id'] %>
         priority <%= ip['priority'] %>
         advert_int 1
