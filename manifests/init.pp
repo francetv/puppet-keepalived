@@ -46,7 +46,7 @@ class keepalived (
     file{"/etc/keepalived/conf.d": ensure => directory}
 
     file {"/etc/keepalived/vrrp_state.sh":
-        mode => 0644,
+        mode => 0755,
         owner => root,
         group => 0,
         source => "puppet:///modules/keepalived/etc/keepalived/vrrp_state.sh",
@@ -55,7 +55,7 @@ class keepalived (
     }
 
     file {"/etc/keepalived/bypass_ipvs.sh":
-        mode => 0644,
+        mode => 0755,
         owner => root,
         group => 0,
         source => "puppet:///modules/keepalived/etc/keepalived/bypass_ipvs.sh",
