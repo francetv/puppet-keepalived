@@ -7,9 +7,18 @@ class keepalived (
     $smtp_server = '127.0.0.1',
     ) {
 
-    exec{"add-ip_forwarding":
-        command => "/sbin/sysctl net.ipv4.ip_forward=1",
-        onlyif => "/usr/bin/test -z \"`/sbin/sysctl net.ipv4.ip_forward | grep 1`\"",
+    file { "/etc/sysctl.d/60-arp_dsr.conf":
+                owner   => root,
+                group   => root,
+                mode    => 644,
+        source => "puppet:///modules/keepalived/arp_dsr.conf",
+    }
+
+    file { "/etc/sysctl.d/60-ip_forward.conf":
+                owner   => root,
+                group   => root,
+                mode    => 644,
+        source => "puppet:///modules/keepalived/ip_forward.conf",
     }
 
     package { ['keepalived', 'ipvsadm']: 
@@ -41,6 +50,15 @@ class keepalived (
         owner => root,
         group => 0,
         source => "puppet:///modules/keepalived/etc/keepalived/vrrp_state.sh",
+        require => Package["keepalived"],
+        notify => Exec["reload-keepalived"],
+    }
+
+    file {"/etc/keepalived/bypass_ipvs.sh":
+        mode => 0644,
+        owner => root,
+        group => 0,
+        source => "puppet:///modules/keepalived/etc/keepalived/bypass_ipvs.sh",
         require => Package["keepalived"],
         notify => Exec["reload-keepalived"],
     }

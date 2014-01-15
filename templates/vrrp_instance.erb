@@ -12,10 +12,14 @@ vrrp_instance <%= @name %>_<%= ip['vip'] %> {
                 auth_pass <%= @auth_pass %>
         }
 
-        notify_master "/sbin/ip route add <%= ip['vip'] %> dev <%= @interface %>"
-        notify_backup "/sbin/ip route del <%= ip['vip'] %> dev <%= @interface %>"
-        notify_fault "/sbin/ip route del <%= ip['vip'] %> dev <%= @interface %>"
         notify /etc/keepalived/vrrp_state.sh
+
+        # Invoked to master transition
+        notify_master "/etc/keepalived/bypass_ipvs.sh del <%= ip['vip'] %>"
+        # Invoked to slave transition
+        notify_backup "/etc/keepalived/bypass_ipvs.sh add <%= ip['vip'] %>"
+        # Invoked to fault transition
+        notify_fault "/etc/keepalived/bypass_ipvs.sh add <%= ip['vip'] %>"
 
         virtual_ipaddress {
                <%= ip['vip'] %>
