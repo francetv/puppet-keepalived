@@ -1,4 +1,4 @@
-#! /bin/sh
+#!/bin/bash
 # 
 # Gael Charriere <gael.charriere@gmail.com>
 # 10.11.2008
@@ -63,18 +63,18 @@ VIP="${VIP[0]}.${VIP[1]}.${VIP[2]}.${VIP[3]}"
 case "$1" in
   add)
   	# check if the rule was already specified
-  	n=$(iptables -t nat -L -n| grep $VIP | wc -l)
+  	n=$(/sbin/iptables -t nat -L -n| grep $VIP | wc -l)
     if [[ $n == 0 ]]; then
     	# the rule was not found, add it
-    	iptables -A PREROUTING -t nat -d $VIP -p tcp -j REDIRECT
+    	/sbin/iptables -A PREROUTING -t nat -d $VIP -p tcp -j REDIRECT
     fi
     ;;
   del)
   	# check if the rule was already specified
-    n=$(iptables -t nat -L -n| grep $VIP | wc -l)
+    n=$(/sbin/iptables -t nat -L -n| grep $VIP | wc -l)
     while [[ $n > 0 ]]; do
     	# remove the rule
-    	iptables -D PREROUTING -t nat -d $VIP -p tcp -j REDIRECT
+    	/sbin/iptables -D PREROUTING -t nat -d $VIP -p tcp -j REDIRECT
     	n=$(($n-1))
     done
     ;;
