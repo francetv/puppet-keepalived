@@ -1,6 +1,7 @@
 define keepalived::virtual_server ( 
 	$virtual_ipaddress,
 	$virtual_server_port,
+	$sorry_server_ip = '127.0.0.1',
 	$servers = [],
 	$virtual_service = '',
 	$lb_kind = 'DR',

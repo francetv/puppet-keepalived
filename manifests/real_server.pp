@@ -18,7 +18,6 @@
 define keepalived::real_server (
 	$ip,
 	$port,
-	$sorry = false,
 	$weight = '100',
 	$check_type = 'TCP_CHECK', 
 		$check_connect_timeout = '2',
@@ -30,24 +29,16 @@ define keepalived::real_server (
 		$check_url_digest = '' 
 	) {
 	
-	if ($sorry == false) {
-		if $check_type == 'TCP_CHECK' {
-			$real_check_connect_port = $check_connect_port ? {
-				'' => $port,
-				default => $check_connect_port,
-			}
+	if $check_type == 'TCP_CHECK' {
+		$real_check_connect_port = $check_connect_port ? {
+			'' => $port,
+			default => $check_connect_port,
 		}
+	}
 
-		file{"/etc/keepalived/conf.d/rs_${ip}_${port}.conf":
-			ensure => present,
-			content => template("keepalived/real_server.erb"),
-			notify => Exec["reload-keepalived"],
-		}
-	} else {
-		file{"/etc/keepalived/conf.d/rs_${ip}_${port}.conf":
-			ensure => present,
-			content => template("keepalived/real_server_sorry.erb"),
-			notify => Exec["reload-keepalived"],
-		}		
+	file{"/etc/keepalived/conf.d/rs_${ip}_${port}.conf":
+		ensure => present,
+		content => template("keepalived/real_server.erb"),
+		notify => Exec["reload-keepalived"],
 	}
 }

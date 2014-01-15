@@ -5,6 +5,8 @@ virtual_server <%= @virtual_ipaddress %> <%= @virtual_server_port %> {
     nat_mask 255.255.255.0
     protocol TCP
 
+    sorry_server <%= @sorry_server_ip %> <%= @virtual_server_port %>
+
 <% @servers.each do |ip| %>
     include rs_<%= ip %>_<%= @virtual_server_port %>.conf
 <% end %>
