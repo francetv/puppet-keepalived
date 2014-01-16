@@ -14,12 +14,10 @@ vrrp_instance <%= @name %>_<%= ip['vip'] %> {
 
         notify /etc/keepalived/vrrp_state.sh
 
-        # Invoked to master transition
         notify_master "/etc/keepalived/bypass_ipvs.sh del <%= ip['vip'] %>"
-        # Invoked to slave transition
         notify_backup "/etc/keepalived/bypass_ipvs.sh add <%= ip['vip'] %>"
-        # Invoked to fault transition
         notify_fault "/etc/keepalived/bypass_ipvs.sh add <%= ip['vip'] %>"
+        notify_stop "/etc/keepalived/bypass_ipvs.sh add <%= ip['vip'] %>"
 
         virtual_ipaddress {
                <%= ip['vip'] %>
