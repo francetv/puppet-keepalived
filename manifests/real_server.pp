@@ -19,6 +19,7 @@ define keepalived::real_server (
 	$ip,
 	$port,
 	$weight = '100',
+	$inhibit = false,
 	$check_type = 'TCP_CHECK', 
 		$check_connect_timeout = '2',
 		$check_nb_get_retry = '2',

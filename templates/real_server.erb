@@ -1,5 +1,9 @@
     real_server <%= @ip %> <%= @port %> {
       weight <%= @weight %>
+
+<% if @inhibit %>
+      inhibit_on_failure
+<% end %>
 <%    case @check_type
       when "MISC_CHECK" %>
       MISC_CHECK {
