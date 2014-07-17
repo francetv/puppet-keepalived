@@ -1,4 +1,4 @@
-define keepalived::vrrp_instance ( 
+define keepalived::vrrp_instance (
 	$vip = [],
 	$lb_passwd = 'changeme',
 	$interface = 'eth0') {
@@ -7,24 +7,13 @@ define keepalived::vrrp_instance (
 	$auth_pass = $lb_passwd
 	$check_type = 'TCP_CHECK'
 
-    file {"/etc/keepalived/conf.d/vrrp_instance.conf":
-        content => template("keepalived/vrrp_instance.erb"),
-        mode => 0644,
-        owner => root,
-        group => 0,
-        notify => Exec["reload-keepalived"],
-    }
-
-	# Configure DSR on real servers with exported ressources
-	# Be carefull when server reboots
-#	$vip.foreach { |$key,$value|
-#		if $value['state'] == "MASTER" { #Export only when MASTER
-#			exec{"add-loopback-DSR-${value['vip']}":
-#				command => "/sbin/ip addr add ${value['vip']}/32 dev lo",
-#				onlyif => "/usr/bin/test -z \"`/sbin/ip addr ls lo | grep ${value['vip']}/32`\"",
-#			}
-#		}
-#	}
+	file {"/etc/keepalived/conf.d/vrrp_instance.conf":
+		content => template("keepalived/vrrp_instance.erb"),
+		mode => 0644,
+		owner => root,
+		group => 0,
+		notify => Exec["reload-keepalived"],
+	}
 
 	exec{"add-arp_announce-config-DSR":
 		command => "/sbin/sysctl net.ipv4.conf.all.arp_announce=2",
