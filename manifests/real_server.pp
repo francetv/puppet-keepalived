@@ -24,7 +24,7 @@ define keepalived::real_server (
 		$check_connect_timeout = '2',
 		$check_nb_get_retry = '2',
 		$check_delay_before_retry = '2',
-		$check_misc_path = '/etc/keepalived/ha_proxy.sh',
+		$check_misc_path = '/etc/keepalived/ha_script.sh',
 		$check_misc_options = '',
 		$check_connect_port = '',
 		$check_url_path = '',

@@ -54,11 +54,11 @@ class keepalived (
         notify => Exec["reload-keepalived"],
     }
 
-    file {"/etc/keepalived/ha_proxy.sh":
+    file {"/etc/keepalived/ha_script.sh":
         mode => 0755,
         owner => root,
         group => 0,
-        source => "puppet:///modules/keepalived/etc/keepalived/ha_proxy.sh",
+        source => "puppet:///modules/keepalived/etc/keepalived/ha_script.sh",
         require => Package["keepalived"],
         notify => Exec["reload-keepalived"],
     }
