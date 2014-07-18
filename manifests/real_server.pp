@@ -1,6 +1,6 @@
 # Define : keepalived::real_server
 #
-# Define a real server. 
+# Define a real server.
 #
 # Parameters :
 #        ip
@@ -20,16 +20,17 @@ define keepalived::real_server (
 	$port,
 	$weight = '100',
 	$inhibit = false,
-	$check_type = 'TCP_CHECK', 
+	$check_type = 'TCP_CHECK',
 		$check_connect_timeout = '2',
 		$check_nb_get_retry = '2',
 		$check_delay_before_retry = '2',
-		$check_misc_path = '', 
-		$check_connect_port = '', 
-		$check_url_path = '', 
-		$check_url_digest = '' 
+		$check_misc_path = '/etc/keepalived/ha_proxy.sh',
+		$check_misc_options = '',
+		$check_connect_port = '',
+		$check_url_path = '',
+		$check_url_digest = ''
 	) {
-	
+
 	if $check_type == 'TCP_CHECK' {
 		$real_check_connect_port = $check_connect_port ? {
 			'' => $port,

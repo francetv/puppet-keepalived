@@ -1,6 +1,6 @@
 # Class: keepalived
 #
-# This class manage keepalived server installation and configuration. 
+# This class manage keepalived server installation and configuration.
 #
 class keepalived (
     $email_notifications = 'root@localhost',
@@ -21,7 +21,7 @@ class keepalived (
         source => "puppet:///modules/keepalived/ip_forward.conf",
     }
 
-    package { ['keepalived', 'ipvsadm']: 
+    package { ['keepalived', 'ipvsadm']:
         ensure => installed
     }
 
@@ -50,6 +50,15 @@ class keepalived (
         owner => root,
         group => 0,
         source => "puppet:///modules/keepalived/etc/keepalived/vrrp_state.sh",
+        require => Package["keepalived"],
+        notify => Exec["reload-keepalived"],
+    }
+
+    file {"/etc/keepalived/ha_proxy.sh":
+        mode => 0755,
+        owner => root,
+        group => 0,
+        source => "puppet:///modules/keepalived/etc/keepalived/ha_proxy.sh",
         require => Package["keepalived"],
         notify => Exec["reload-keepalived"],
     }

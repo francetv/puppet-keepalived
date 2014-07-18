@@ -7,7 +7,7 @@
 <%    case @check_type
       when "MISC_CHECK" %>
       MISC_CHECK {
-          misc_path "<%= @check_misc_path %> <%= @name %> <%= @ip %> <%= @port %>"
+          misc_path "<%= @check_misc_path %> <%= @name %> <%= @ip %> <%= @port %> <%= @check_misc_options %>"
           misc_timeout 5
           nb_get_retry 3
           delay_before_retry 5
