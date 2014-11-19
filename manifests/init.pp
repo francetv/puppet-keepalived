@@ -4,6 +4,7 @@
 #
 class keepalived (
     $email_notifications = 'root@localhost',
+    $email_notifications_from = 'noreply@localhost',
     $smtp_server = '127.0.0.1',
     ) {
 
