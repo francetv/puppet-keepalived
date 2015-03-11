@@ -4,7 +4,7 @@ global_defs {
   notification_email {
     <%= @email_notifications %>
   }
-  notification_email_from root@<%= @hostname %>
+  notification_email_from <%= @email_notifications_from %>
   smtp_server <%= @smtp_server %>
   smtp_connect_timeout 30
 
