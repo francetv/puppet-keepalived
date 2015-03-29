@@ -1,3 +1,11 @@
+<% if @type == 'haproxy' %>
+vrrp_script chk_haproxy {
+      script "killall -0 haproxy"
+      interval 2
+      weight 2
+}
+<% end %>
+
 <% @vip.each do |ip| %>
 vrrp_instance <%= @name %>_<%= ip['vip'] %> {
         state <%= ip['state'] %>
@@ -19,8 +27,15 @@ vrrp_instance <%= @name %>_<%= ip['vip'] %> {
         notify_fault "/etc/keepalived/bypass_ipvs.sh add <%= ip['vip'] %>"
         notify_stop "/etc/keepalived/bypass_ipvs.sh add <%= ip['vip'] %>"
 
+        <% if @type == 'haproxy' %>
+        track_script {
+             chk_haproxy
+        }
+        <% end %>
+
         virtual_ipaddress {
                <%= ip['vip'] %>
         }
+
 }
 <% end %>
