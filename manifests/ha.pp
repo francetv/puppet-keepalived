@@ -16,12 +16,19 @@ define keepalived::ha (
 		notify => Exec["reload-keepalived"],
 	}
 
-	augeas{"tcp tunning":
+	augeas{'tcp tunning':
 		context => "/files/etc/sysctl.conf",
 		changes => [
 			"set net.ipv4.conf.all.arp_announce	2",
 			"set net.ipv4.conf.all.arp_ignore		1",
 			"set net.ipv4.ip_nonlocal_bind			1",
 		],
+		notify => Exec["sysctl"]
+	}
+
+	exec { "/sbin/sysctl -p":
+		alias => "sysctl",
+		refreshonly => true,
+		subscribe => Augeas['tcp tunning'],
 	}
 }
