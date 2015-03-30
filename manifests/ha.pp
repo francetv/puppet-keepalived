@@ -26,9 +26,15 @@ define keepalived::ha (
 		notify => Exec["sysctl"]
 	}
 
+	file { "sysctl_conf":
+		name => $operatingsystem ? {
+			default => "/etc/sysctl.conf",
+		},
+	}
+
 	exec { "/sbin/sysctl -p":
 		alias => "sysctl",
 		refreshonly => true,
-		subscribe => Augeas['tcp tunning'],
+		subscribe => File["sysctl_conf"],
 	}
 }
