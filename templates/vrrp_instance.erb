@@ -14,6 +14,7 @@ vrrp_instance <%= @name %>_<%= ip['vip'] %> {
         lvs_sync_daemon_interface <%= @interface %>
         virtual_router_id <%= ip['router_id'] %>
         priority <%= ip['priority'] %>
+        nopreempt
         advert_int 1
         smtp_alert
         authentication {
