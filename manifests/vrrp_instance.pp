@@ -8,6 +8,7 @@ define keepalived::vrrp_instance (
 	$check_type = 'TCP_CHECK'
 
 	file {"/etc/keepalived/conf.d/vrrp_instance.conf":
+		replace => true,
 		content => template("keepalived/vrrp_instance.erb"),
 		mode => 0644,
 		owner => root,
